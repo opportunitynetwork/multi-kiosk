@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/chromedp/chromedp"
-	"github.com/chromedp/chromedp/kb"
 )
 
 // NewRelicKiosk creates a chrome-based kiosk using a local New Relic account.
