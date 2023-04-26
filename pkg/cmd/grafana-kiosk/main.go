@@ -147,7 +147,7 @@ func main() {
 
 	// validate auth methods
 	switch args.LoginMethod {
-	case "goauth", "anon", "local", "gcom", "idtoken", "apikey", "aws":
+	case "goauth", "anon", "local", "newrelic", "gcom", "idtoken", "apikey", "aws":
 	default:
 		log.Println("Invalid auth method", args.LoginMethod)
 		os.Exit(-1)
@@ -218,6 +218,9 @@ func main() {
 	case "local":
 		log.Printf("Launching local login kiosk")
 		kiosk.GrafanaKioskLocal(&cfg, messages)
+	case "newrelic":
+		log.Printf("Launching New Relic login kiosk")
+		kiosk.NewRelicKiosk(&cfg, messages)
 	case "gcom":
 		log.Printf("Launching GCOM login kiosk")
 		kiosk.GrafanaKioskGCOM(&cfg, messages)
