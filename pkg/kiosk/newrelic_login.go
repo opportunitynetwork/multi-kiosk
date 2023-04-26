@@ -64,6 +64,12 @@ func NewRelicKiosk(cfg *Config, messages chan string) {
 		panic(err)
 	}
 
+	if err := chromedp.Run(taskCtx,
+		chromedp.Navigate(generatedURL),
+	); err != nil {
+		panic(err)
+	}
+
 	// blocking wait
 	for {
 		messageFromChrome := <-messages
