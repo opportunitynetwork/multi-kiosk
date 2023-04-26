@@ -35,9 +35,7 @@ func NewRelicKiosk(cfg *Config, messages chan string) {
 		panic(err)
 	}
 
-	var generatedURL = GenerateURL(cfg.Target.URL, cfg.General.Mode, cfg.General.AutoFit, cfg.Target.IsPlayList)
-
-	log.Println("Navigating to ", generatedURL)
+	log.Println("Navigating to ", cfg.Target.URL)
 	/*
 		Launch chrome and login with local user account
 
@@ -48,7 +46,7 @@ func NewRelicKiosk(cfg *Config, messages chan string) {
 	time.Sleep(2000 * time.Millisecond)
 
 	if err := chromedp.Run(taskCtx,
-		chromedp.Navigate(generatedURL),
+		chromedp.Navigate(cfg.Target.URL),
 		chromedp.WaitVisible(`//input[@id="login_email"]`, chromedp.BySearch),
 		chromedp.SendKeys(`//input[@id="login_email"]`, cfg.Target.Username, chromedp.BySearch),
 		chromedp.Click(`//*[@id="login_submit"]`, chromedp.BySearch),
@@ -64,17 +62,11 @@ func NewRelicKiosk(cfg *Config, messages chan string) {
 		panic(err)
 	}
 
-	if err := chromedp.Run(taskCtx,
-		chromedp.Navigate(generatedURL),
-	); err != nil {
-		panic(err)
-	}
-
 	// blocking wait
 	for {
 		messageFromChrome := <-messages
 		if err := chromedp.Run(taskCtx,
-			chromedp.Navigate(generatedURL),
+			chromedp.Navigate(cfg.Target.URL),
 		); err != nil {
 			panic(err)
 		}
