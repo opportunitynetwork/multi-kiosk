@@ -62,16 +62,18 @@ func NewRelicKiosk(cfg *Config, messages chan string) {
 		panic(err)
 	}
 
+	time.Sleep(10000 * time.Millisecond)
+
 	if err := chromedp.Run(taskCtx,
-		chromedp.WaitVisible(`//div[class*=\"-UserArea-name\"]`, chromedp.BySearch),
-		chromedp.Click(`//div[class*=\"-UserArea-name\"]`, chromedp.BySearch),
+		chromedp.WaitVisible(`//button[aria-label="User menu"]`, chromedp.BySearch),
+		chromedp.Click(`//button[aria-label="User menu"]`, chromedp.BySearch),
 	); err != nil {
 		panic(err)
 	}
 
 	if err := chromedp.Run(taskCtx,
-		chromedp.WaitVisible(`//button[aria-label=\"Dark\"]`, chromedp.BySearch),
-		chromedp.Click(`//button[aria-label=\"Dark\"]`, chromedp.BySearch),
+		chromedp.WaitVisible(`//button[aria-label="Dark"]`, chromedp.BySearch),
+		chromedp.Click(`//button[aria-label="Dark"]`, chromedp.BySearch),
 	); err != nil {
 		panic(err)
 	}
