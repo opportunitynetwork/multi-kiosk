@@ -46,7 +46,7 @@ func NewRelicKiosk(cfg *Config, messages chan string) {
 	time.Sleep(2000 * time.Millisecond)
 
 	if err := chromedp.Run(taskCtx,
-		chromedp.Navigate(cfg.Target.URL),
+		chromedp.Navigate(cfg.Target.PreURL),
 		chromedp.WaitVisible(`//input[@id="login_email"]`, chromedp.BySearch),
 		chromedp.SendKeys(`//input[@id="login_email"]`, cfg.Target.Username, chromedp.BySearch),
 		chromedp.Click(`//*[@id="login_submit"]`, chromedp.BySearch),
@@ -58,6 +58,26 @@ func NewRelicKiosk(cfg *Config, messages chan string) {
 		chromedp.WaitVisible(`//input[@id="login_password"]`, chromedp.BySearch),
 		chromedp.SendKeys(`//input[@id="login_password"]`, cfg.Target.Password, chromedp.BySearch),
 		chromedp.Click(`//*[@id="login_submit"]`, chromedp.BySearch),
+	); err != nil {
+		panic(err)
+	}
+
+	if err := chromedp.Run(taskCtx,
+		chromedp.WaitVisible(`//div[class*=\"-UserArea-name\"]`, chromedp.BySearch),
+		chromedp.Click(`//div[class*=\"-UserArea-name\"]`, chromedp.BySearch),
+	); err != nil {
+		panic(err)
+	}
+
+	if err := chromedp.Run(taskCtx,
+		chromedp.WaitVisible(`//button[aria-label=\"Dark\"]`, chromedp.BySearch),
+		chromedp.Click(`//button[aria-label=\"Dark\"]`, chromedp.BySearch),
+	); err != nil {
+		panic(err)
+	}
+
+	if err := chromedp.Run(taskCtx,
+		chromedp.Navigate(cfg.Target.URL),
 	); err != nil {
 		panic(err)
 	}
